@@ -1,4 +1,5 @@
-﻿using PluginDemo.Core;
+﻿using Microsoft.Extensions.DependencyInjection;
+using PluginDemo.Core;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,6 +14,12 @@ namespace PluginDemo
         {
             Console.WriteLine("Testing plugins...");
 
+            ExecutePlugins();
+            ExecuteDIPlugin();
+        }
+
+        private static void ExecutePlugins()
+        {
             string[] pluginPaths = new string[]
                 {
                     @"JsonPlugin\bin\Debug\netcoreapp3.0\JsonPlugin.dll",
@@ -32,6 +39,33 @@ namespace PluginDemo
                 Console.WriteLine($"{command.Name}\t - {command.Description}");
                 command.Execute();
             }
+        }
+
+        private static void ExecuteDIPlugin()
+        {
+            string[] pluginPaths = new string[]
+                {
+                    @"DIPlugin\bin\Debug\netstandard2.0\DIPlugin.dll"
+                };
+
+            ICommandFactory commandFactory = pluginPaths.SelectMany(pluginPath =>
+            {
+                Assembly pluginAssembly = LoadPlugin(pluginPath);
+                return CreateCommandFactories(pluginAssembly);
+            }).FirstOrDefault();
+
+            var services = new ServiceCollection();
+
+            services.AddSingleton<ICommandFactory>(commandFactory);
+            services.AddTransient<ICommand>(serviceProvider =>
+            {
+                var factory = serviceProvider.GetRequiredService<ICommandFactory>();
+                return factory.Create();
+            });
+            var serviceProvider = services.BuildServiceProvider();
+
+            var command = serviceProvider.GetRequiredService<ICommand>();
+            command.Execute();
         }
 
         static Assembly LoadPlugin(string relativePath)
@@ -59,6 +93,32 @@ namespace PluginDemo
                 if (typeof(ICommand).IsAssignableFrom(type))
                 {
                     ICommand result = Activator.CreateInstance(type) as ICommand;
+                    if (result != null)
+                    {
+                        count++;
+                        yield return result;
+                    }
+                }
+            }
+
+            if (count == 0)
+            {
+                string availableTypes = string.Join(",", assembly.GetTypes().Select(t => t.FullName));
+                throw new ApplicationException(
+                    $"Can't find any type which implements ICommand in {assembly} from {assembly.Location}.\n" +
+                    $"Available types: {availableTypes}");
+            }
+        }
+
+        static IEnumerable<ICommandFactory> CreateCommandFactories(Assembly assembly)
+        {
+            int count = 0;
+
+            foreach (Type type in assembly.GetTypes())
+            {
+                if (typeof(ICommandFactory).IsAssignableFrom(type))
+                {
+                    ICommandFactory result = Activator.CreateInstance(type) as ICommandFactory;
                     if (result != null)
                     {
                         count++;

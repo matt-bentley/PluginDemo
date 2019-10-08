@@ -3,13 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.29326.143
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginDemo", "PluginDemo\PluginDemo.csproj", "{7B659584-7C40-4F35-AC17-CE7BECEA1CD7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginDemo", "PluginDemo\PluginDemo.csproj", "{7B659584-7C40-4F35-AC17-CE7BECEA1CD7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonPlugin", "JsonPlugin\JsonPlugin.csproj", "{E037E78B-1A57-4616-ABE0-7BD0278BABF9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonPlugin", "JsonPlugin\JsonPlugin.csproj", "{E037E78B-1A57-4616-ABE0-7BD0278BABF9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PluginDemo.Core", "PluginDemo.Core\PluginDemo.Core.csproj", "{61E02A10-94BD-4244-B97F-A859984B77DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "PluginDemo.Core", "PluginDemo.Core\PluginDemo.Core.csproj", "{61E02A10-94BD-4244-B97F-A859984B77DC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JsonPluginOld", "JsonPluginOld\JsonPluginOld.csproj", "{8C7C5990-3038-409F-8C7C-D5803BADFDB5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "JsonPluginOld", "JsonPluginOld\JsonPluginOld.csproj", "{8C7C5990-3038-409F-8C7C-D5803BADFDB5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DIPlugin", "DIPlugin\DIPlugin.csproj", "{04F4C011-A9DF-4799-BD3A-B803F05F1BDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{8C7C5990-3038-409F-8C7C-D5803BADFDB5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C7C5990-3038-409F-8C7C-D5803BADFDB5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C7C5990-3038-409F-8C7C-D5803BADFDB5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{04F4C011-A9DF-4799-BD3A-B803F05F1BDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{04F4C011-A9DF-4799-BD3A-B803F05F1BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{04F4C011-A9DF-4799-BD3A-B803F05F1BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{04F4C011-A9DF-4799-BD3A-B803F05F1BDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

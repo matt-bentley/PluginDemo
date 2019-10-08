@@ -1,15 +1,22 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using PluginDemo.Core;
 using System;
 using System.Reflection;
 
-namespace JsonPluginOld
+namespace DIPlugin
 {
-    public class JsonPluginOld : ICommand
+    public class DIPlugin : ICommand
     {
-        public string Name => "old json";
+        private readonly IConfiguration Configuration;
 
-        public string Description => "Outputs JSON value (Old).";
+        public DIPlugin(IConfiguration configuration)
+        {
+            this.Configuration = configuration;
+        }
+
+        public string Name => "di";
+        public string Description => "Creates plugin using DI.";
 
         private struct Info
         {
@@ -33,6 +40,8 @@ namespace JsonPluginOld
             };
 
             Console.WriteLine(JsonConvert.SerializeObject(info, Formatting.Indented));
+
+            Console.Write($"TestSetting: {Configuration["TestSetting"]}");
 
             return 0;
         }

@@ -6,6 +6,7 @@ namespace PluginDemo.Core
         string Name { get; }
         string Description { get; }
 
+        void ConfigureServices(IDependantService dependantService);
         ICommand Create();
     }
 }

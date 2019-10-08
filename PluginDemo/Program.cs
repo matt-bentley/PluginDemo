@@ -1,4 +1,5 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using PluginDemo.Core;
 using System;
 using System.Collections.Generic;
@@ -56,7 +57,21 @@ namespace PluginDemo
 
             var services = new ServiceCollection();
 
-            services.AddSingleton<ICommandFactory>(commandFactory);
+            var builder = new ConfigurationBuilder()
+                .SetBasePath(Directory.GetCurrentDirectory())
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            var configuration = builder.Build();
+
+            services.AddSingleton<IConfiguration>(configuration);
+            services.AddSingleton<IDependantService, DependantService>();
+            
+            services.AddSingleton<ICommandFactory>(serviceProvider =>
+            {
+                var dependantService = serviceProvider.GetRequiredService<IDependantService>();
+                commandFactory.ConfigureServices(dependantService);
+                return commandFactory;
+            });
+
             services.AddTransient<ICommand>(serviceProvider =>
             {
                 var factory = serviceProvider.GetRequiredService<ICommandFactory>();

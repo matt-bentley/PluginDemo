@@ -9,10 +9,12 @@ namespace DIPlugin
     public class DIPlugin : ICommand
     {
         private readonly IConfiguration Configuration;
+        private readonly IDependantService _dependantService;
 
-        public DIPlugin(IConfiguration configuration)
+        public DIPlugin(IConfiguration configuration, IDependantService dependantService)
         {
             this.Configuration = configuration;
+            _dependantService = dependantService;
         }
 
         public string Name => "di";
@@ -42,6 +44,7 @@ namespace DIPlugin
             Console.WriteLine(JsonConvert.SerializeObject(info, Formatting.Indented));
 
             Console.Write($"TestSetting: {Configuration["TestSetting"]}");
+            Console.Write($"Username: {_dependantService.GetUsername()}");
 
             return 0;
         }
